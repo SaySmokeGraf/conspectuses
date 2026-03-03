@@ -33,6 +33,7 @@ ________________________________________________________________________
 - **[_resources](#_resources)**
     - **[abbreviations](#_resourcesabbreviationsmd)**
 - **[backend](#backend)**
+    - **[FastAPI](#backendfastapimd)**
     - **[network_protocols](#backendnetwork_protocolsmd)**
 - **[common](#common)**
     - **[DSA](#commondsamd)**
@@ -57,6 +58,11 @@ ________________________________________________________________________
 ## backend ##
 
 Темы, связанные с бэкенд разработкой и сетями.
+________________________________________________________________________
+
+### backend/FastAPI.md ###
+
+Конспект по бэкенд фреймворку FastAPI под Python.
 ________________________________________________________________________
 
 ### backend/network_protocols.md ###
