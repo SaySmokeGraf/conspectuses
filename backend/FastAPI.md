@@ -24,6 +24,11 @@ ________________________________________________________________________
         - > **[СТАТУС-КОД ОТВЕТА](#статус-код-ответа)**
         - > **[ОБРАБОТКА ОШИБОК](#обработка-ошибок)**
     - > **[ПОЛЕЗНЫЕ ФИЧИ](#полезные-фичи)**
+    - > **[БЕЗОПАСНОСТЬ](#безопасность)**
+        - > **[ПРОСТЕЙШАЯ СХЕМА](#простейшая-схема)**
+        - > **[ПОЛУЧЕНИЕ ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ](#получение-текущего-пользователя)**
+        - > **[OAUTH2 С ПАРОЛЕМ + BEARER](#oauth2-с-паролем--bearer)**
+        - > **[ХЕШИРОВАНИЕ И JWT](#хеширование-и-jwt)**
 - > **[ИСТОЧНИКИ И ДОП. МАТЕРИАЛЫ](#источники-и-доп-материалы)**
 ________________________________________________________________________
 
@@ -1692,6 +1697,655 @@ async def patch_item(item_id: str, item: Item) -> Response:
 ```
 ________________________________________________________________________
 
+## БЕЗОПАСНОСТЬ ##
+
+Тема безоп-ти неотрывно связана с темой авторизации и аутентификации,
+поэтому в данной части конспекта рассматривается именно в таком ключе.
+
+Тема сложная и затронет большинство рассмотренных выше тем. Следует
+изучить их прежде, чем приступать к изучению безоп-ти в контексте
+FastAPI.
+
+В качестве введения рассмотрим основные спецификации:
+
+- *OAuth2* - обширная спецификация, определяющая различные способы
+    обработки аут-ции и ав-ции, в т.ч. те способы, что подразумевают
+    третью сторону ("войти с помощью Google" и проч.). Является как
+    основной спецификацией в контексте данной темы, так и основой для
+    др. спецификаций.
+
+- *OpedID Connect* - расширение для OAuth2 в сторону совместимости с
+    третьей стороной (например, Google исп-т не OAuth2, а OpedID
+    Connect).
+
+- *OpenAPI* - открытая спецификация для создания API, на которой и
+    основан FastAPI. В OpenAPI есть несколько схем безоп-ти, основанных
+    на других спецификациях, которыми можно восп-ся:
+
+    - *apiKey* - API-ключ, поступающий из пар-ра запроса, HTTP-заголовка
+        или в качестве куки.
+    
+    - *http* - набор станд. систем аут-ции по HTTP, включая:
+        - *bearer* - HTTP-заголовок `Authorization` со значением
+            `"Bearer <token>"`, унаследованный от OAuth2.
+        - Базовая аут-ция по HTTP.
+        - HTTP Digest.
+        - Др.
+    
+    - *oauth2* - как понятно, OAuth2. Содержит несколько способов
+        (т.н. "потоков") аут-ции третьим лицом, но основное в контексте
+        коспекта - аут-ция непосредственно в приложении с исп-ем
+        "потока" `password`.
+    
+    - *openIdConnect* - как понятно, OpenID Connect.
+
+Для каждой из схем безоп-ти есть инструменты в модуле
+`fastapi.security`.
+________________________________________________________________________
+
+Кроме того, рассмотрим важные понятия:
+
+- *Токен* - строка с некоторым содержимым, исп-емая для проверки
+    пользователя. Обычно у токена установлен срок действия, после
+    которого он недействителен.
+
+- *Эмитирование* токена = выдача токена.
+
+- *Хеширование* (в контексте темы) - одностороннее однозначное
+    преобразование данных в строку с набором символов. Это означает, что
+    для одних и тех же данных при разных вызовах хеш-ф-ции будет один и
+    тот же результат, но при этом полученный хеш обратно в данные
+    восстановить нельзя.
+
+    В общем контексте хеширование имеет более широкое определение, без
+    требований одностороннего преобразования. Кроме того, и в пределах
+    данного контекста одностороннесть - идеалистическая концепция, в то
+    время как теоретически расшифровать можно любой захешированный набор
+    данных. Вопрос только во времени, однозначности обратного
+    преобразования и, для простых методов, наличии исходного кода
+    хеш-ф-ции.
+________________________________________________________________________
+
+### ПРОСТЕЙШАЯ СХЕМА ###
+
+Простейшая схема подразумевает аут-цию по имени пользователя и паролю.
+
+Ее вид:
+
+```py
+from typing import Annotated
+
+from fastapi import Depends, FastAPI
+from fastapi.security import OAuth2PasswordBearer
+
+app = FastAPI()
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
+
+
+@app.get('/')
+async def get_root(token: Annotated[str, Depends(oauth2_scheme)]):
+    return {'token': token}
+```
+________________________________________________________________________
+
+Разберем ее функционал. Это аут-ция посредством *"password flow"* -
+одного из способов обеспечения безоп-ти и аут-ции, определенных в
+OAuth2. При этом тип токена - Bearer. За этот способ и тип токена
+отвечает класс `OAuth2PasswordBearer`.
+
+Идея следующая:
+
+- В бэкенд передаются логин `username` и пароль `password`, введенные
+    во фротненде, на конкретный эндпоинт. Этот эндпоинт описан в пар-ре
+    `tokenUrl` класса OAuth2PasswordBearer. В данном случае -
+    "./token" (относительный адрес). При этом сам эндпоинт или операция
+    пути не создаются в таком объявлении - адрес отвечает чисто за
+    получение токена. Для прочих обработок - придется создать эндпоинт
+    отдельно.
+
+- API проверяет пользователя и отвечает токеном, чтобы фронтенд его
+    сохранил г-л. В примере выше этого еще нет.
+
+- При последующем серфинге по сервису фронтенд отправляет для ав-ции не
+    логин и пароль, а HTTP-заголовок `Authorization` со значением
+    `"Bearer <token>"`.
+
+Как видно из кода, за то, чтобы это работало, исп-ся переменная
+oauth2_scheme. Она содержит в себе вызываемый объект - экземпляр класса
+OAuth2PasswordBearer. Этот экземпляр надо передать как зав-ть, и она
+пердоставит токен в формате str - поэтому пар-р операции пути описан
+именно так.
+
+Под капотом эта зав-ть делает следующее:
+
+- Ищет заголовок Authorization и проверяет его на соответствие виду
+    `"Bearer <token>"`.
+
+- Если заголовка нет или вид его не соответствует - отвечает ошибкой со
+    статус-кодом 401 Unauthorized.
+
+Проверка валидности токена (которой пока что нет) возлагается на код
+разработчика.
+________________________________________________________________________
+
+### ПОЛУЧЕНИЕ ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ ###
+
+Исп-е зав-ти с безоп-тью в таком виде не особо полезно, ведь возвращение
+и чистое исп-е токена в пределах бэкенда редко нужно. Вместо этого
+добавим базовую работу с пользователем и его получение.
+
+Для олицетворения пользователя восп-ся моделями Pydantic.
+
+```py
+from typing import Annotated
+
+from fastapi import Depends, FastAPI
+from fastapi.security import OAuth2PasswordBearer
+from pydantic import BaseModel
+
+app = FastAPI()
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
+
+
+class User(BaseModel):
+    username: str,
+    email: str | None = None
+    full_name: str | None = None
+
+
+def fake_user_getter(token: str):
+    return User(
+        username=token + '_fake_got',
+        email=token + '_fake_email@example.com',
+        full_name='Ivan Ivanov'
+    )
+
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    return fake_user_getter(token)
+
+
+@app.get('/')
+async def get_root(current_user: Annotated[User, Depends(get_current_user)]):
+    return current_user
+```
+________________________________________________________________________
+
+В коде добавилось:
+
+- Описание пользователя как Pydantic-модели User.
+- Фейковый геттер пользователя fake_user_getter - в реальном проекте
+    будет получение из БД, но в данном случае это чистая заплашка.
+- Зав-ть get_current_user, возвращающая пользователя. Она заместила
+    зав-ть oauth2_scheme в операции пути, но сама при этом стала
+    зависеть от oauth2_scheme - вложенные зав-ти.
+
+Теперь этот код в первую очередь достиг того, что разделил безоп-ть от
+основного кода - операции пути. get_root теперь работает чисто с
+пользователем, а безоп-тью занимается неотделимый от нее геттер текущего
+пользователя. В реальном проекте можно и нужно будет раскидать это по
+разным скриптам.
+
+Кроме того, постепенно внедряем в сухой скелет нужные и полезные вещи и
+практики. Это предварительный этап перед полным "потоком" безопасности.
+________________________________________________________________________
+
+### OAUTH2 С ПАРОЛЕМ + BEARER ###
+
+Теперь введем полный "поток" безоп-ти в простом виде. Сначала приведем
+код, а затем рассмотрим все нововведения.
+
+```py
+from typing import Annotated
+
+from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from pydantic import BaseModel
+
+
+fake_users_db = {
+    'ivanivan': {
+        'username': 'ivanivan',
+        'full_name': 'Ivan Ivanov',
+        'email': 'ivanivan@example.com',
+        'hashed_password': 'fakehashedivansecret',
+        'disabled': False
+    },
+    'petya': {
+        'username': 'petya',
+        'full_name': 'Pyotr Petrov',
+        'email': 'petyapetya@example.com',
+        'hashed_password': 'fakehashedpetyasecret',
+        'disabled': True
+    }
+}
+
+app = FastAPI()
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
+
+
+class User(BaseModel):
+    username: str,
+    email: str | None = None
+    full_name: str | None = None
+    disabled: bool | None = None
+
+
+class UserInDB(User):
+    hashed_password: str
+
+
+def fake_hash_password(password: str):
+    return 'fakehashed' + password
+
+def get_user(db, username: str):
+    if username in db:
+        user_dict = db[username]
+        return UserInDB(**user_dict)
+
+def fake_decode_token(token):
+    user = get_user(fake_user_db, token)
+    return user
+
+
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    user = fake_decode_token(token)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail='Not authenticated',
+            header={'WWW-Authenticate': 'Bearer'}
+        )
+    return user
+
+async def get_current_active_user(
+    current_user: Annotated[User, Depends(get_current_user)] 
+):
+    if current_user.disabled:
+        raise HTTPException(status_code=400, detail='Inactive user')
+    return current_user
+
+
+@app.post('/token')
+async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
+    user_dict = fake_users_db.get(from_data.username)
+    if not user_dict:
+        raise HTTPException(status_code=400, detail='Incorrect username or password')
+    user = UserInDB(**user_dict)
+    hashed_password = fake_hash_password(form_data.password)
+    if not hashed_password == user.hashed_password:
+        raise HTTPException(status_code=400, detail='Incorrect username or password')
+    return {'access_token': user.username, 'token_type': 'bearer'}
+
+@app.get('/')
+async def get_root(
+    current_user: Annotated[User, Depends(get_current_active_user)]
+):
+    return current_user
+```
+________________________________________________________________________
+
+Для начала рассмотрим вспомогательные вещи:
+
+- Пока что мы не работаем с реальным токеном, а в качестве токена исп-ем
+    username для простоты (хотя это мб несколько запутывающе). Очевидно,
+    так делать в реальном проекте нельзя.
+
+- User обзавелся новым полем disabled для хранения флага "отключенности"
+    (активности) пользователя. При этом появился дочерний UserInDB,
+    который содержит еще одно поле hashed_password - захешированный
+    пароль.
+    
+    > **ВАЖНО!** В открытом виде хранить пароли небезопасно! Хранить
+    надо именно хешированный пароль! Это нужно, чтобы в случае угона БД
+    с пользователями нельзя было всопользоваться паролями.
+
+- fake_users_db - фейковая БД пользователей в формате словаря со
+    словарями вида dict[имя-пользователя, dict[поле, значение]].
+    Структура полей согласуется с UserInDB (точнее, наоборот, UserInDB
+    написан так, чтобы согласоваться со структурой полей в БД). Записаны
+    они в виде словаря словарей для имитации реальной БД со своим
+    интерфейсом.
+
+- fake_hash_password - фейковая ф-ция хеширования паролей. В реальном
+    проекте заменяется на реальное хеширование.
+
+- get_user - ф-ция для получения пользователя из БД.
+
+- fake_decode_token - фейковая ф-ция для декодирования токена в
+    пользователя. В данном случае - ф-ция-прослойка без предоставления
+    к-л безоп-ти. В реальном проекте так не делается.
+________________________________________________________________________
+
+Теперь рассмотрим операцию пути login.
+
+- Пар-р form_data принимает в себя данные формы. В данном случае ТД
+    объявлен как `OAuth2PasswordRequestForm` - специальный зав-ть-класс,
+    дочерний Form, представляющий собой форму под OAuth2 аут-цию с
+    паролем. На самом деле не представляет из себя ничего необычного и
+    мб написан вручную, но дан в FastAPI для упрощения.
+    
+    Содержит в себе поля:
+
+    - `username` - обязательное поле.
+    - `password` - обязательное поле.
+    - `scope` - необязательное поле в виде большой строки отдельных
+        scope, разделенных пробелом (обсудим отдельно). При этом у
+        экземпляра OAuth2PasswordRequestForm будет не одна строка, а
+        атрибут `scopes`, содержащий список строк. Нужен для добавления
+        определенных разрешений и ограничений.
+    - `grant_type` - необязательное для OAuth2PasswordRequestForm поле,
+        но вообще для спецификации OAuth2 поле обязательно и должно
+        содержать фиксированное значение password. Если прям необходимо
+        строгое стребование, исп-ть OAuth2PasswordRequestFormStrict.
+    - `client_id` - необязательное поле.
+    - `client_secret` - необязательное поле.
+
+    В нашем примере исп-ся только поля username и password.
+
+- Первым делом получаются данные о пользователе из фейковой БД с помощью
+    поля username из данных формы. Если пользователя нет - вызывается
+    ошибка 400 'Incorrect username or password'. Если есть - собирается
+    экземпляр UserInDB для дальнейшей работы.
+
+- Проверка пароля производится через сравнение хеша от password из
+    данных формы и хешированного пароля в БД. Если не равны - вызывается
+    ошибка 400 'Incorrect username or password'.
+
+- Если проверки все прошли успешно - возвращается специализированный
+    ответ формата JSON с обязательными полями:
+
+    - `access_token` - строка с токеном доступа.
+    - `token_type` - строка с типом токена, в нашем случае - "bearer".
+
+Итого вся эта операция пути предназначена для произведения логина и
+выдачи токена авторизировавшему пользователю.
+________________________________________________________________________
+
+Перейдем к get_root:
+
+- Появилась проверка активности пользователя. Теперь get_root имеет
+    зав-ть от get_current_active_user, который имеет зав-ть от
+    get_current_user, который имеет зав-ть от oauth2_scheme.
+
+    get_current_active_user в этом плане зав-ть-прослойка для проверки
+    активности пользователя, полученного от get_current_user.
+
+    Если пользователь не активен, то вернется ошибка с сообщением о
+    неактивности пользователя.
+
+- get_current_user претерпел изменения как чтобы брать пользователя из
+    новой фейковой БД, так и чтобы возвращать ошибку в случае, если
+    пользователя нет.
+
+    Он задействует фейковый декодер токена, который, в свою очередь, и
+    должен по токену отыскать пользователя.
+
+    Кроме того, возвращаемая ошибка в случае ненайденного пользователя
+    имеет специальный вид:
+    
+    - Ошибка имеет статус-код 401.
+    - Заголовок `WWW-Authenticate` является частью спецификации - ошибка
+        с кодом 401 обязана возвращать такой. Работать все будет и без
+        заголовка, но спецификация требует его наличие, а ряд
+        инструментов может ожидать и исп-ть этот заголовок.
+    - В нашем случае с bearer-токеном этот заголовок должен содержать
+        значение `Bearer`.
+________________________________________________________________________
+
+### ХЕШИРОВАНИЕ И JWT ###
+
+Наконец, можно перейти к окончательным доработкам в безоп-ти:
+правильному хешированию и действительным токенам.
+
+Самый ходовой стандарт для токенов - *JWT*, или JSON Web Tokens. Это
+стандарт кодирования JSON-объекта в виде длинной строки без пробелов.
+Есть зашифрованная подпись, что именно данный сервис его эмитировал.
+
+Т.о. можно создать токен со сроком действия, заложенном в нем, а если
+его попробуют модифицировать - его выдаст другая подпись.
+
+JWT в расшифрованном виде содержит в себе заголовок с алгоритмом
+кодирования и типом ("JWT"), тело (т.н. "payload") с данными (их должно
+быть немного, обычно лишь "sub" с субъектом токена наподобие имени
+пользователя, его роль в к-л формате и время истечения "exp") и подпись
+на основании соли в зашифрованном виде.
+
+Побаловаться с JWT: см. "Источники и доп. материалы".
+________________________________________________________________________
+
+Для работы с JWT-токенами понадобится библиотека `pyjwt`. Если нужны
+алгоритмы цифровой подписи - следует установить зав-ть библиотеки
+криптографии с помощью указания издания `pyjwt[crypto]`.
+
+Для хеширования отличным пакетом будет `pwdlib`. Мн-во безопасных
+алгоритмов хеширования и утилит для работы с ними. Авторы туториала
+рекомендуют алгоритм Argon2, а также упоминают Bcrypt.
+
+В специфическом случае может понадобиться библиотека `passlib` для более
+устаревших алгоритмов хеширования, т.к. pwdlib таковые не поддерживает.
+________________________________________________________________________
+
+Теперь конечный код:
+
+```py
+from datetime import datetime, timedelta, timezone
+from typing import Annotated
+
+import jwt
+from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from jwt.exceptions import InvalidTokenError
+from pwdlib import PasswordHash
+from pydantic import BaseModel
+
+
+SECRET_KEY = '...'  # какой-то случайный hex 32 ключ
+ALORITHM = 'HS256'
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
+
+fake_users_db = {
+    'ivanivan': {
+        'username': 'ivanivan',
+        'full_name': 'Ivan Ivanov',
+        'email': 'ivanivan@example.com',
+        'hashed_password': ...,  # какой-то хешированный пароль
+        'disabled': False
+    },
+    'petya': {
+        'username': 'petya',
+        'full_name': 'Pyotr Petrov',
+        'email': 'petyapetya@example.com',
+        'hashed_password': ..., # какой-то хешированный пароль
+        'disabled': True
+    }
+}
+
+password_hash = PasswordHash.recommended()
+
+DUMMY_HASH = password_hash.hash('some_dummy_password')
+
+app = FastAPI()
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='token')
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: str | None = None
+
+
+class User(BaseModel):
+    username: str,
+    email: str | None = None
+    full_name: str | None = None
+    disabled: bool | None = None
+
+
+class UserInDB(User):
+    hashed_password: str
+
+
+def verify_password(plain_password, hashed_password):
+    return password_hash.verify(plain_password, hashed_password)
+
+def get_password_hash(password):
+    return password_hash.hash(password)
+
+def get_user(db, username: str):
+    if username in db:
+        user_dict = db[username]
+        return UserInDB(**user_dict)
+
+def authenticate_user(db, username: str, password: str):
+    user = get_user(db, username)
+    if not user:
+        verify_password(password, DUMMY_HASH)
+        return False
+    if not verify_password(password, user.hashed_password):
+        return False
+    return user
+
+def create_access_token(data: dict, expires_delta: timedelta | None = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.now(timezone.utc) + expires_delta
+    else:
+        expire = datetime.now(timezone.utc) + timedelta(minutes=15)
+    to_encode.update({'exp': expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail='Could not validate credentials',
+        headers={'WWW-Authenticate': 'Bearer'}
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get('sub')
+        if username is None:
+            raise credentials_exception
+        token_data = TokenData(username=username)
+    except InvalidTokenError:
+        raise credentials_exception
+    user = get_user(fake_users_db, username=token_data.username)
+    if user is None:
+        raise credentials_exception
+    return user
+
+async def get_current_active_user(
+    current_user: Annotated[User, Depends(get_current_user)] 
+):
+    if current_user.disabled:
+        raise HTTPException(status_code=400, detail='Inactive user')
+    return current_user
+
+
+@app.post('/token')
+async def login_for_access_token(
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
+) -> Token:
+    user = authenticate_user(fake_users_db, form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail='Incorrect username or password',
+            headers={'WWW-Authenticate': 'Bearer'}
+        )
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={'sub', user.username}, expires_delta=access_token_expires
+    )
+    return Token(access_token=access_token, token_type='bearer')
+
+@app.get('/')
+async def get_root(
+    current_user: Annotated[User, Depends(get_current_active_user)]
+):
+    return current_user
+```
+________________________________________________________________________
+
+Для начала рассмотрим вспомогательные вещи:
+
+- Константы:
+
+    - *SECRET_KEY* - секретный ключ для подписи JWT-токенов (т.н.
+        "соль"). Можно исп-ть команду в терминале `openssl rand -hex 32`
+        для получения такового.
+
+        > **ВАЖНО!** Не стоит его хранить вот так в переменной. Лучше
+        хранить ключ в отдельном файле, причем при работе с git закинуть
+        этот файл в исключения для избежания утечек. Кроме того, этот
+        файл должен быть хорошо защищен от злоумышленников.
+
+    - *ALGORITHM* - строковая переменная с названием алгоритма для
+        подписи JWT-токена. Рекомендуемый алгоритм - HS256.
+
+    - *ACCESS_TOKEN_EXPIRE_MINUTES* - время истечения токена в минутах.
+
+    - *DUMMY_HASH* - фиктивный хеш-пустышка, который создается от
+        пароля-пустышки. Он исп-ся в authenticate_user для того, чтобы
+        в случае вызова с именем пользователя, которого нет в БД, сервер
+        отвечал столько же времени, как будто такой пользователь есть.
+        Нужно для контрмер тайминговым атакам по поиску действительных
+        имен пользователей.
+
+- password_hash - сущность с функционалом для работы с хешем. Исп-ся
+    методы `hash` для получения хеша и `verify` для сравнения чистых
+    данных и захешированных с возвратом bool.
+
+    Сама сущность создается методом класса `PasswordHash`, в данном
+    случае исп-ся рекомендованный алгоритм Argon2.
+
+- Для удобства появились модель для токена и данных из декодированного
+    токена Token и TokenData соотв.
+
+- verify_password - ф-ция для удобства сверки полученного чистого пароля
+    и хешированного.
+
+- get_password_hash - ф-ция для удоства хеширования пароля.
+
+- authenticate_user - аут-ция пользователя по логину и паролю с учетом
+    нового хеширования.
+
+- create_access_token - вспомогательная ф-ция для создания токена.
+    Принимает в себя данные для шифрования и время истечения токена в
+    формате datetime.timedelta. Все это кодируется с помощью
+    `jwt.encode(данные, соль, algorithm=алгоритм)`.
+________________________________________________________________________
+
+Основные методы претерпели изменения согласно вспомогательным:
+
+- get_current_user - теперь действует не с фейковым токеном, а с JWT,
+    декодируя его с помощью `jwt.decode` и проверяя данные в нем (в
+    данном случае - по ключу "sub" хранится имя пользователя). Если
+    токен по к-л причине недействителен - возвращает ошибку.
+
+- get_current_active_user не изменился.
+
+- login_for_access_token - обновленная операция пути "/token" с
+    созданием реального JWT-токена с помощью create_access_token.
+    Данные для создания JWT-токена предлагаются как {"sub": username}.
+    Для более больших и разноплановых приложений можно исп-ть и другие
+    поля для разграничений или указать доп. данные в строке по ключу
+    "sub" ч/ разделитель. Важно, чтобы "sub" был уникален по всему
+    приложению согласно спецификации, поэтому второй вариант (ч/
+    разделитель) очень хорошо сходится с этим.
+
+- get_root не изменился.
+________________________________________________________________________
+
 # ИСТОЧНИКИ И ДОП. МАТЕРИАЛЫ #
 
 1. [Сайт] **Документация FastAPI**:
@@ -1713,4 +2367,6 @@ ________________________________________________________________________
     [ссылка](https://yandex.cloud/ru/docs/glossary/cookie/).
 1. [Сайт] **Список и расшифровка статус-кодов HTTP-ответов**:
     [ссылка](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status).
+1. [Сайт] **Побаловаться с JWT дебаггером**:
+    [ссылка](https://www.jwt.io/).
 ________________________________________________________________________
