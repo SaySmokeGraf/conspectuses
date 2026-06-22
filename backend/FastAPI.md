@@ -3033,7 +3033,7 @@ SQLModel запросов. Т.о. строка выше разбивается �
 ```py
 statement = select(Hero).where(Hero.id == hero_id)
 result = session.exec(statement)
-hero = results.first()
+hero = result.first()
 ```
 
 Подробнее см. - документацию или туториал SQLModel (есть в "Источниках и
