@@ -39,9 +39,11 @@ ________________________________________________________________________
 
 ## Б ##
 
+- **б/п** - беспроводной.
 - **БД** - база данных.
 - **безоп-ть** - безопасность.
 - **бин.** - бинарный.
+- **БП** - блок питания.
 
 ## В ##
 
@@ -65,6 +67,8 @@ ________________________________________________________________________
 
 ## Д ##
 
+- **д-е** - действие.
+- **д-ть** - действовать.
 - **дир-я** - директория.
 - **док-во** - доказательство.
 - **доп.** - дополнительный.
@@ -124,6 +128,8 @@ ________________________________________________________________________
 
 ## О ##
 
+- **обесп-е** - обеспечение.
+- **обесп-ть** - обеспечивать.
 - **ООП** - объектно-ориентированное программирование.
 - **оп-я** - операция.
 - **ориг.** - оригинальный.
@@ -144,6 +150,7 @@ ________________________________________________________________________
 - **пос-но** - последовательно.
 - **пос-ый** - последовательный.
 - **пос-ть** - последовательность.
+- **потенц.** - потенциальный.
 - **пр-во** - пространство.
 - **прим.** - примечание.
 - **проч.** - прочее.
@@ -171,6 +178,8 @@ ________________________________________________________________________
 - **ср** - среда.
 - **станд.** - стандартный.
 - **СУБД** - система управления базой данных.
+- **сущ-ет** - существует.
+- **сущ.** - существующий.
 
 ## Т ##
 
@@ -188,6 +197,7 @@ ________________________________________________________________________
 - **тест-ка** - тестировка.
 - **тест-ть** - тестировать.
 - **ТЗ** - техническое задание.
+- **ТУ** - техническое условие.
 - **тф** - телефон.
 
 ## У ##
@@ -201,6 +211,7 @@ ________________________________________________________________________
 
 - **ф-ла** - формула.
 - **ф-ция** - функция.
+- **физ.** - физический.
 - **фикс.** - фиксированный.
 - **ФП** - функциональное программирование.
 - **функ-ть** - функциональность.
@@ -222,6 +233,7 @@ ________________________________________________________________________
 - **ч-л** - что-либо.
 - **ч-н** - что-нибудь.
 - **чт** - четверг.
+- **ЧТД**, **чтд** - что и требовалось доказать.
 
 ## Ш ##
 
@@ -250,56 +262,90 @@ ________________________________________________________________________
 
 ## A ##
 
-- **API** - application programming interface.
+- **ADU** - Application Data Unit.
+- **AI** - Artificial Intelligence.
+- **AJAX** - Asynchronous Javascript and XML.
+- **API** - Application Programming Interface.
+- **ARP** - Address Resolution Protocol.
+- **ATM** - Asynchronous Transfer Mode.
 
 ## B ##
 
-Пусто.
+- **btn** - button.
 
 ## C ##
 
-Пусто.
+- **CRUD** - create, read, update, delete.
+- **CSS** - Cascading Style Sheets.
 
 ## D ##
 
 - **DB** - data base.
+- **DevOps** - development and operations.
+- **DHCP** - Dynamic Host Configuration Protocol.
+- **DNS** - Domain Name System.
+- **DPI** - dots per inch или Deep Package Inspection.
 - **DS** - data science.
+- **DSL** - Digital Subscriber Line.
 
 ## E ##
 
 - **env.** - environment или environmental.
+- **err** - error.
+- **exc.** - exception.
 
 ## F ##
 
-Пусто.
+- **FTP(S)** - File Transfer Protocol (Secured).
 
 ## G ##
 
-- **GUI** - graphical user interface.
+- **gRPC** - Google Remote Procedure Calls.
+- **GUI** - Graphical User Interface.
 
 ## H ##
 
-Пусто.
+- **HATEOAS** - Hypermedia as the Engine of Application State.
+- **HTML** - HyperText Markup Language.
+- **HTTP(S)** - HyperText Transfer Protocol (Secured).
 
 ## I ##
 
-- **IP** - internet protocol.
+- **IANA** - Internet Assigned Numbers Authority.
+- **ICANN** - Internet Corporation for Assigned Names and Numbers.
+- **ICMP** - Internet Control Message Protocol.
+- **IGMP** - Internet Group Management Protocol.
+- **IKE** - Internet Key Exchange.
+- **IMAP** - Internet Message Access Protocol.
+- **IP** - Internet Protocol.
+- **IPsec** - IP Secured.
 
 ## J ##
 
-Пусто.
+- **JS** - JavaScript.
+- **JSON** - JavaScript Notation Object.
 
 ## K ##
 
-Пусто.
+- **k8s** - Kubernetes.
 
 ## L ##
 
-- **LAN** - local area network.
+- **L2TP** - Layer 2 Tunneling Protocol.
+- **LAN** - Local Area Network.
+- **lbl** - label.
+- **LLC** - Logical Link Control.
+- **LLM** - Large Language Model.
+- **LRU** - last recent use.
 
 ## M ##
 
-- **M2M** - machine-to-machine.
+- **M2M** - Machine-to-Machine.
+- **MAC** - Meduim/Media Access Control.
+- **MD**, **md** - Markdown.
+- **ML** - Machine Learning.
+- **MLD** - Multicast Listener Discovery.
+- **msg** - message.
 
 ## N ##
 
@@ -307,12 +353,23 @@ ________________________________________________________________________
 
 ## O ##
 
-- **ORM** - object-relational mapping.
+- **OCI** - Open Container Initiative
+- **ORM** - Object-Relational Mapping.
 - **OS** - operating system.
+- **OSI** - Open Systems Interconnection.
+- **OSPF** - Open Shortest Path First.
 
 ## P ##
 
-- **P2P** - peer-to-peer.
+- **P2P** - Peer-to-Peer.
+- **PDU** - protocol data unit.
+- **POP** - Post Office Protocol.
+- **PPP** - Point-to-Point.
+- **PPPoA** - PPP via ATM.
+- **PPPoE** - PPP via Ethernet.
+- **PPTP** - Point-to-Point Tunneling Protocol.
+- **Protobuf** - Protocol Buffers.
+- **pwd** - password.
 
 ## Q ##
 
@@ -320,33 +377,55 @@ ________________________________________________________________________
 
 ## R ##
 
-Пусто.
+- **req.** - request.
+- **res.** - result или resource.
+- **resp.** - response.
+- **REST** - Representational State Transfer.
+- **RSVP** - Resource Reservation Protocol (ReSerVation Protocol).
+- **RTP** - Real-time Transfer Protocol.
+- **RTU** - Remote Terminal Unit.
 
 ## S ##
 
+- **SCADA** - Supervisory Control And Data Acquisition.
+- **SCTP** - Stream Control Transmission Protocol.
+- **SFTP** - Secure FTP.
 - **seq.** - sequence.
-- **SQL** - structured query language.
+- **SMTP** - Simple Mail Transfer Protocol.
+- **SNMP** - Simple Network Management Protocol.
+- **SOAP** - Simple Object Access Protocol.
+- **SQL** - Structured Query Language.
+- **src** - source.
+- **SSH** - Secure Shell.
+- **SSL** - Secure Sockets Layer.
+- **SSTP** - Secure Socket Tunneling Protocol.
 
 ## T ##
 
+- **TCP** - Transmission Control Protocol.
+- **TLD** - Top-Level Domain.
+- **TLS** - Transport Layer Security.
 - **TP** - transfer protocol или transport protocol.
 
 ## U ##
 
-Пусто.
+- **UDP** - User Datagram Protocol.
 
 ## V ##
 
-- **VM** - virtual machine.
+- **v**, **v.** - version.
+- **VCS** - Version Control System.
+- **VM** - Virtual Machine.
+- **VPN** - Virtual Private Network.
 
 ## W ##
 
-- **WAN** - wide area network.
-- **WWW** - world wide web.
+- **WAN** - Wide Area Network.
+- **WWW** - World Wide Web.
 
 ## X ##
 
-Пусто.
+- **XML** - eXtensible Markup Language.
 
 ## Y ##
 
