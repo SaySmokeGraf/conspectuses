@@ -214,6 +214,7 @@ ________________________________________________________________________
 ## У ##
 
 - **уник.** - уникальный.
+- **упоряд.** - упорядоченный.
 - **ур-е** - уравнение.
 - **ур-нь** - уровень.
 - **уст-во** - устройство.
@@ -396,6 +397,7 @@ ________________________________________________________________________
 - **int** - integer.
 - **IP** - Internet Protocol.
 - **IPsec** - IP Secured.
+- **ISO** - International Organization for Standardization.
 - **ISP** - Interface Segregation Principle.
 
 ## J ##
@@ -474,6 +476,7 @@ ________________________________________________________________________
 - **PK** - primary key.
 - **POP** - Post Office Protocol.
 - **pos** - position.
+- **POSIX** - Portable Operating System Interface for UNIX.
 - **pow** - power.
 - **PPP** - Point-to-Point.
 - **PPPoA** - PPP via ATM.
