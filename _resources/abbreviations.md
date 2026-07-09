@@ -136,6 +136,7 @@ ________________________________________________________________________
 
 - **обесп-е** - обеспечение.
 - **обесп-ть** - обеспечивать.
+- **ОЗУ** - оперативное запоминающее устройство.
 - **ОКР** - опытно-конструкторская работа.
 - **ООП** - объектно-ориентированное программирование.
 - **оп-я** - операция.
@@ -149,6 +150,7 @@ ________________________________________________________________________
 - **п.** - пункт.
 - **п/у** - прямоугольный.
 - **пар-р** - параметр.
+- **ПЗУ** - постоянное запоминающее устройство.
 - **ПК** - персональный компьютер.
 - **пн** - понедельник.
 - **ПО** - программное обеспечение.
@@ -160,6 +162,7 @@ ________________________________________________________________________
 - **потенц.** - потенциальный.
 - **пр-во** - пространство.
 - **прим.** - примечание.
+- **производ-ть** - производительность.
 - **проч.** - прочее.
 - **пт** - пятница.
 
@@ -214,6 +217,7 @@ ________________________________________________________________________
 - **ур-е** - уравнение.
 - **ур-нь** - уровень.
 - **уст-во** - устройство.
+- **уч.** - учебный.
 
 ## Ф ##
 
@@ -270,6 +274,7 @@ ________________________________________________________________________
 
 ## A ##
 
+- **abs** - abstract или absolute.
 - **ACID** - atomicity, consistency, isolation, durability.
 - **ADU** - Application Data Unit.
 - **AI** - Artificial Intelligence.
@@ -290,11 +295,13 @@ ________________________________________________________________________
 - **BFS** - Breadth-First Search.
 - **bin** - binary.
 - **bool** - boolean.
+- **BST** - binary search tree.
 - **btn** - button.
 - **BWT** - Burrows-Wheeler data transform.
 
 ## C ##
 
+- **cat** - category или catalog.
 - **char** - character.
 - **CI/CD** - Continuous Integration / Continuous Delivery.
 - **CLI** - Comand Line Interface.
@@ -303,6 +310,7 @@ ________________________________________________________________________
 - **cnt** - count или counter.
 - **col** - column.
 - **cond** - condition.
+- **CORS** - Cross-Origin Resource Sharing.
 - **CRUD** - create, read, update, delete.
 - **CSS** - Cascading Style Sheets.
 - **ctrl** - control.
@@ -312,8 +320,10 @@ ________________________________________________________________________
 - **D**, **d** - down.
 - **DB** - data base.
 - **del** - delete.
+- **dep** - dependency.
 - **deque** - double ended queue.
 - **desc** - description или descending.
+- **dev** - development или developer.
 - **DevOps** - development and operations.
 - **DFS** - Depth-First Search.
 - **DHCP** - Dynamic Host Configuration Protocol.
@@ -323,6 +333,7 @@ ________________________________________________________________________
 - **dmg** - damage.
 - **dn** - down.
 - **DNS** - Domain Name System.
+- **doc**, **docs** - documentation.
 - **DPI** - dots per inch или Deep Package Inspection.
 - **DRY** - Don't Repeat Yourself.
 - **DS** - data science.
@@ -334,6 +345,7 @@ ________________________________________________________________________
 
 - **E2E** - End-to-End.
 - **en**, **EN** - english.
+- **enum** - enumeration.
 - **env.** - environment или environmental.
 - **eq** - equal.
 - **err** - error.
@@ -356,6 +368,7 @@ ________________________________________________________________________
 - **GCD** - greatest common divisor.
 - **ge** - greater or equal.
 - **gnd** - ground.
+- **GoF** - Gang of Four.
 - **gRPC** - Google Remote Procedure Calls.
 - **gt** - greater than.
 - **GUI** - Graphical User Interface.
@@ -363,6 +376,7 @@ ________________________________________________________________________
 ## H ##
 
 - **HATEOAS** - Hypermedia as the Engine of Application State.
+- **HDD** - hard disk drive.
 - **hex** - hexal.
 - **HTML** - HyperText Markup Language.
 - **HTTP(S)** - HyperText Transfer Protocol (Secured).
@@ -388,6 +402,7 @@ ________________________________________________________________________
 
 - **JS** - JavaScript.
 - **JSON** - JavaScript Notation Object.
+- **JWT** - JSON Web Token.
 
 ## K ##
 
@@ -424,6 +439,7 @@ ________________________________________________________________________
 - **MAC** - Meduim/Media Access Control.
 - **max** - maximum.
 - **MD**, **md** - Markdown.
+- **MIME** - Multipurpose Internet Mail Extensions.
 - **min** - minimum.
 - **mk** - make.
 - **ML** - Machine Learning.
@@ -475,6 +491,7 @@ ________________________________________________________________________
 ## R ##
 
 - **r**, **R** - right.
+- **RAM** - random access memory.
 - **RegEx**, **regex** - regular expression.
 - **req.** - request.
 - **res.** - result или resource.
@@ -482,9 +499,11 @@ ________________________________________________________________________
 - **REST** - Representational State Transfer.
 - **RLE** - Run-Length Encoding.
 - **rm** - remove.
+- **RPG** - role-playing game.
 - **RSVP** - Resource Reservation Protocol (ReSerVation Protocol).
 - **RTP** - Real-time Transfer Protocol.
 - **RTU** - Remote Terminal Unit.
+- **rtype** - return data type.
 - **ru**, **RU** - russian.
 
 ## S ##
@@ -497,11 +516,13 @@ ________________________________________________________________________
 - **SNMP** - Simple Network Management Protocol.
 - **SOAP** - Simple Object Access Protocol.
 - **SOLID** - SRP + OCP + LSP + ISP + DIP.
+- **spec** - special.
 - **SQL** - Structured Query Language.
 - **sqr** - square или squared.
 - **sqrt** - square root.
 - **src** - source.
 - **SRP** - Single Responsibility Principle.
+- **SSD** - solid-state drive.
 - **SSH** - Secure Shell.
 - **SSL** - Secure Sockets Layer.
 - **SSTP** - Secure Socket Tunneling Protocol.
@@ -527,6 +548,7 @@ ________________________________________________________________________
 - **UDP** - User Datagram Protocol.
 - **UI** - user interface.
 - **URL** - Uniform Resource Locator.
+- **UUID** - Universally Unique Identifier.
 
 ## V ##
 
