@@ -89,6 +89,7 @@ ________________________________________________________________________
 ## И ##
 
 - **инт-л** - интервал.
+- **инфо** - информация или информационный (в зависимости от контекста).
 - **искл-е** - исключение.
 - **искл-ть** - исключить.
 - **исп-е** - использование.
@@ -125,11 +126,17 @@ ________________________________________________________________________
 - **нач.** - начальный.
 - **необх.** - необходимый.
 - **необх-ть** - необходимость.
+- **НИОКР** - НИР + ОКР.
+- **НИР** - научно-исследовательская работа.
+- **НОД** - наибольший общий делитель.
+- **НОК** - наименьшее общее кратное.
+- **НОП** - наибольшая общая подпоследовательность.
 
 ## О ##
 
 - **обесп-е** - обеспечение.
 - **обесп-ть** - обеспечивать.
+- **ОКР** - опытно-конструкторская работа.
 - **ООП** - объектно-ориентированное программирование.
 - **оп-я** - операция.
 - **ориг.** - оригинальный.
@@ -160,6 +167,7 @@ ________________________________________________________________________
 
 - **реал.** - реальный.
 - **реал-ть** - реальность.
+- **рез-т** - результат.
 
 ## С ##
 
@@ -237,7 +245,7 @@ ________________________________________________________________________
 
 ## Ш ##
 
-Пусто.
+- **шт.** - штук.
 
 ## Щ ##
 
@@ -262,63 +270,119 @@ ________________________________________________________________________
 
 ## A ##
 
+- **ACID** - atomicity, consistency, isolation, durability.
 - **ADU** - Application Data Unit.
 - **AI** - Artificial Intelligence.
 - **AJAX** - Asynchronous Javascript and XML.
 - **API** - Application Programming Interface.
+- **APO** - Avoid Premature Optimization.
+- **arg** - argument.
 - **ARP** - Address Resolution Protocol.
+- **arr** - array.
+- **asc** - ascending.
+- **async** - asynchronous.
 - **ATM** - Asynchronous Transfer Mode.
+- **avg** - average.
 
 ## B ##
 
+- **BDUF** - Big Design Up Front.
+- **BFS** - Breadth-First Search.
+- **bin** - binary.
+- **bool** - boolean.
 - **btn** - button.
+- **BWT** - Burrows-Wheeler data transform.
 
 ## C ##
 
+- **char** - character.
+- **CI/CD** - Continuous Integration / Continuous Delivery.
+- **CLI** - Comand Line Interface.
+- **cls** - class.
+- **cmd** - command.
+- **cnt** - count или counter.
+- **col** - column.
+- **cond** - condition.
 - **CRUD** - create, read, update, delete.
 - **CSS** - Cascading Style Sheets.
+- **ctrl** - control.
 
 ## D ##
 
+- **D**, **d** - down.
 - **DB** - data base.
+- **del** - delete.
+- **deque** - double ended queue.
+- **desc** - description или descending.
 - **DevOps** - development and operations.
+- **DFS** - Depth-First Search.
 - **DHCP** - Dynamic Host Configuration Protocol.
+- **dict** - dictionary.
+- **DIP** - Dependency Inversion Principle.
+- **dir** - directory.
+- **dmg** - damage.
+- **dn** - down.
 - **DNS** - Domain Name System.
 - **DPI** - dots per inch или Deep Package Inspection.
+- **DRY** - Don't Repeat Yourself.
 - **DS** - data science.
+- **DSA** - data structures and algorithms.
 - **DSL** - Digital Subscriber Line.
+- **dt** - date-time.
 
 ## E ##
 
+- **E2E** - End-to-End.
+- **en**, **EN** - english.
 - **env.** - environment или environmental.
+- **eq** - equal.
 - **err** - error.
 - **exc.** - exception.
+- **exec** - execute или execution.
 
 ## F ##
 
+- **F** - false.
+- **FF** - Fast-Forward.
+- **FIFO** - First In - First Out.
+- **FILO** - First In - Last Out.
+- **FK** - foreign key.
+- **FPS** - frames per second.
 - **FTP(S)** - File Transfer Protocol (Secured).
+- **func** - function.
 
 ## G ##
 
+- **GCD** - greatest common divisor.
+- **ge** - greater or equal.
+- **gnd** - ground.
 - **gRPC** - Google Remote Procedure Calls.
+- **gt** - greater than.
 - **GUI** - Graphical User Interface.
 
 ## H ##
 
 - **HATEOAS** - Hypermedia as the Engine of Application State.
+- **hex** - hexal.
 - **HTML** - HyperText Markup Language.
 - **HTTP(S)** - HyperText Transfer Protocol (Secured).
 
 ## I ##
 
+- **IaC** - Infrastructure as Code.
 - **IANA** - Internet Assigned Numbers Authority.
 - **ICANN** - Internet Corporation for Assigned Names and Numbers.
 - **ICMP** - Internet Control Message Protocol.
+- **ID** - identifier.
 - **IGMP** - Internet Group Management Protocol.
 - **IKE** - Internet Key Exchange.
 - **IMAP** - Internet Message Access Protocol.
+- **img** - image.
+- **inf** - infinite или infinity.
+- **int** - integer.
 - **IP** - Internet Protocol.
 - **IPsec** - IP Secured.
+- **ISP** - Interface Segregation Principle.
 
 ## J ##
 
@@ -328,32 +392,58 @@ ________________________________________________________________________
 ## K ##
 
 - **k8s** - Kubernetes.
+- **KISS** - Keep It Simple, Stupid.
+- **kw** - keyword.
 
 ## L ##
 
+- **l**, **L** - left.
 - **L2TP** - Layer 2 Tunneling Protocol.
 - **LAN** - Local Area Network.
 - **lbl** - label.
+- **LC** - LeetCode.
+- **LCD** - least common multiple.
+- **le** - less or equal.
+- **len** - length.
+- **lib** - library.
+- **LIFO** - Last in - First Out.
+- **lin** - linear.
 - **LLC** - Logical Link Control.
 - **LLM** - Large Language Model.
 - **LRU** - last recent use.
+- **LSD** - least significant digit.
+- **LSP** - Liskov Substitution Principle.
+- **lt** - less than.
+- **lvl** - level.
+- **LZ** - Lempel-Ziv.
+- **LZW** - Lempel-Ziv-Welch.
 
 ## M ##
 
 - **M2M** - Machine-to-Machine.
 - **MAC** - Meduim/Media Access Control.
+- **max** - maximum.
 - **MD**, **md** - Markdown.
+- **min** - minimum.
+- **mk** - make.
 - **ML** - Machine Learning.
 - **MLD** - Multicast Listener Discovery.
+- **MSD** - most significant digit.
 - **msg** - message.
+- **MTF** - move-to-front.
 
 ## N ##
 
-Пусто.
+- **N**, **n** - no или number.
+- **NaN** - not a number.
+- **num** - number.
 
 ## O ##
 
 - **OCI** - Open Container Initiative
+- **OCP** - Open-Closed Principle.
+- **oct** - octal.
+- **OP**, **op** - operation или operator.
 - **ORM** - Object-Relational Mapping.
 - **OS** - operating system.
 - **OSI** - Open Systems Interconnection.
@@ -362,28 +452,40 @@ ________________________________________________________________________
 ## P ##
 
 - **P2P** - Peer-to-Peer.
+- **param** - parameter.
 - **PDU** - protocol data unit.
+- **pg** - page или PostgreSQL.
+- **PK** - primary key.
 - **POP** - Post Office Protocol.
+- **pos** - position.
+- **pow** - power.
 - **PPP** - Point-to-Point.
 - **PPPoA** - PPP via ATM.
 - **PPPoE** - PPP via Ethernet.
 - **PPTP** - Point-to-Point Tunneling Protocol.
 - **Protobuf** - Protocol Buffers.
 - **pwd** - password.
+- **py** - Python или pythonical.
 
 ## Q ##
 
-Пусто.
+- **QA** - Quality Assurance.
+- **QC** - Quality Control.
 
 ## R ##
 
+- **r**, **R** - right.
+- **RegEx**, **regex** - regular expression.
 - **req.** - request.
 - **res.** - result или resource.
 - **resp.** - response.
 - **REST** - Representational State Transfer.
+- **RLE** - Run-Length Encoding.
+- **rm** - remove.
 - **RSVP** - Resource Reservation Protocol (ReSerVation Protocol).
 - **RTP** - Real-time Transfer Protocol.
 - **RTU** - Remote Terminal Unit.
+- **ru**, **RU** - russian.
 
 ## S ##
 
@@ -394,26 +496,42 @@ ________________________________________________________________________
 - **SMTP** - Simple Mail Transfer Protocol.
 - **SNMP** - Simple Network Management Protocol.
 - **SOAP** - Simple Object Access Protocol.
+- **SOLID** - SRP + OCP + LSP + ISP + DIP.
 - **SQL** - Structured Query Language.
+- **sqr** - square или squared.
+- **sqrt** - square root.
 - **src** - source.
+- **SRP** - Single Responsibility Principle.
 - **SSH** - Secure Shell.
 - **SSL** - Secure Sockets Layer.
 - **SSTP** - Secure Socket Tunneling Protocol.
+- **std** - standart.
+- **str** - string.
+- **sum** - summa.
 
 ## T ##
 
+- **T** - true.
+- **tbl** - table.
 - **TCP** - Transmission Control Protocol.
+- **temp** - temporary.
 - **TLD** - Top-Level Domain.
 - **TLS** - Transport Layer Security.
+- **tmp** - temporary.
 - **TP** - transfer protocol или transport protocol.
+- **tz** - time zone.
 
 ## U ##
 
+- **U**, **u** - up.
 - **UDP** - User Datagram Protocol.
+- **UI** - user interface.
+- **URL** - Uniform Resource Locator.
 
 ## V ##
 
 - **v**, **v.** - version.
+- **val** - value.
 - **VCS** - Version Control System.
 - **VM** - Virtual Machine.
 - **VPN** - Virtual Private Network.
@@ -429,7 +547,9 @@ ________________________________________________________________________
 
 ## Y ##
 
-Пусто.
+- **Y**, **y** - yes.
+- **YAGNI** - You Aren't Gonna Need It.
+- **YT** - YouTube.
 
 ## Z ##
 
