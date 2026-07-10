@@ -473,6 +473,7 @@ ________________________________________________________________________
 - **param** - parameter.
 - **PDU** - protocol data unit.
 - **pg** - page или PostgreSQL.
+- **pic** - picture.
 - **PK** - primary key.
 - **POP** - Post Office Protocol.
 - **pos** - position.
@@ -503,6 +504,7 @@ ________________________________________________________________________
 - **RLE** - Run-Length Encoding.
 - **rm** - remove.
 - **RPG** - role-playing game.
+- **RSQ** - range sum value.
 - **RSVP** - Resource Reservation Protocol (ReSerVation Protocol).
 - **RTP** - Real-time Transfer Protocol.
 - **RTU** - Remote Terminal Unit.
@@ -513,8 +515,9 @@ ________________________________________________________________________
 
 - **SCADA** - Supervisory Control And Data Acquisition.
 - **SCTP** - Stream Control Transmission Protocol.
-- **SFTP** - Secure FTP.
+- **seg** - segment.
 - **seq.** - sequence.
+- **SFTP** - Secure FTP.
 - **SMTP** - Simple Mail Transfer Protocol.
 - **SNMP** - Simple Network Management Protocol.
 - **SOAP** - Simple Object Access Protocol.
